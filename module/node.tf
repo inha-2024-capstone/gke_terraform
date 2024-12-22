@@ -7,11 +7,9 @@ resource "google_container_node_pool" "general" {
   cluster    = google_container_cluster.primary.id # 클러스터 이름
   location = google_container_cluster.primary.location
 
-  node_count = 4 # Node의 갯수
-  
   autoscaling {
-    min_node_count = 4
-    max_node_count = 8
+    min_node_count = 1
+    max_node_count = 2
   }
 
   management {
@@ -24,6 +22,12 @@ resource "google_container_node_pool" "general" {
     preemptible  = false
     machine_type = "e2-standard-4" # Node의 크기
 
+    metadata = {
+    ssh-keys = "qwer:${replace(tls_private_key.ssh_key.public_key_openssh, "\n", "")}"
+    }
+
+    tags = ["gke-node"]
+
     labels = {
       role = "general"
     }
@@ -33,6 +37,7 @@ resource "google_container_node_pool" "general" {
       "https://www.googleapis.com/auth/cloud-platform"
     ]
   }
+  
 }
 
 resource "google_compute_firewall" "allow_tcp_to_nodes" {

@@ -5,6 +5,7 @@
 * Cloud Resource Manager API       
 * Compute Engine API       
 * Kubernetes Engine API         
+* Google Cloud Memorystore for Redis API       
 ---
 ### 테라폼 GCP 인증
 * IAM 및 관리자 접속  

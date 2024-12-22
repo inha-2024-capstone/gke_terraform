@@ -5,9 +5,15 @@ resource "google_container_cluster" "primary" {
 
   # multi location, 가용영역을 지정
   node_locations = var.zones 
-
   remove_default_node_pool = true
+
   initial_node_count = 1
+  
+  lifecycle {
+    ignore_changes = [
+      initial_node_count
+    ]
+  }
   
   network                  = google_compute_network.main.self_link
   subnetwork               = google_compute_subnetwork.private_subnet_a.name

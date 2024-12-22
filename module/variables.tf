@@ -26,3 +26,7 @@ variable "zones" {
 variable "db-password"{
     type = string
 }
+
+variable "redis-password"{
+    type = string
+}
