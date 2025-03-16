@@ -11,20 +11,24 @@ resource "google_sql_database_instance" "mysql_instance" {
       private_network = google_compute_network.main.self_link
     }
   }
+  # Private VPC Connection
   depends_on = [ google_service_networking_connection.private_vpc_connection ]
 }
 
+### Mysql User
 resource "google_sql_user" "mysql_user" {
   name     = "root"
   instance = google_sql_database_instance.mysql_instance.name
-  password = var.db-password # 실제로는 Secret Manager 사용 권장
+  password = var.db-password # 해당 비밀번호는 main.tf 말고 프롬프트 입력이 더 안전하다.
 }
 
+### Database setup
 resource "google_sql_database" "example_database" {
   name     = "yoger-db"
   instance = google_sql_database_instance.mysql_instance.name
 }
 
+### Firewall: Inbound
 resource "google_compute_firewall" "allow_mysql" {
   name    = "allow-mysql-access"
   network = google_compute_network.main.id

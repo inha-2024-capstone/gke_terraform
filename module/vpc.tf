@@ -1,3 +1,4 @@
+### Main VPC
 resource "google_compute_network" "main" {
   name                            = "gke-vpc" # VPC 이름
   routing_mode                    = "REGIONAL"
@@ -6,6 +7,7 @@ resource "google_compute_network" "main" {
   delete_default_routes_on_create = false
 }
 
+### VPC Peering
 resource "google_compute_global_address" "service_networking" {
   name          = "vpc-peer"
   purpose       = "VPC_PEERING"

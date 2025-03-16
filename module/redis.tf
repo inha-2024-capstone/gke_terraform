@@ -1,3 +1,4 @@
+### Reids config
 resource "google_redis_instance" "my_redis" {
   name           = "my-redis-instance"
   tier           = "BASIC"  # 필요에 따라 BASIC 또는 STANDARD_HA 선택

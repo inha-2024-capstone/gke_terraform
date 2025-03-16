@@ -1,3 +1,4 @@
+### SSH
 resource "tls_private_key" "ssh_key" {
   algorithm = "RSA"
   rsa_bits  = 2048
@@ -12,11 +13,13 @@ output "public_key" {
   value = tls_private_key.ssh_key.public_key_openssh
 }
 
+### VM Config
 resource "google_compute_instance" "bastion" {
   name         = "bastion"
   machine_type = "e2-small"
   zone         = "asia-northeast3-a"
 
+  # OS
   boot_disk {
     initialize_params {
       image = "projects/debian-cloud/global/images/family/debian-11"
@@ -29,6 +32,7 @@ resource "google_compute_instance" "bastion" {
       # Assign a public IP
     }
   }
+  # SSH
   metadata = {
     ssh-keys = "qwer:${replace(tls_private_key.ssh_key.public_key_openssh, "\n", "")}"
   }
@@ -43,12 +47,13 @@ resource "google_compute_instance" "bastion" {
   EOT
 }
 
-# Output: Bastion Public IP
+### Output: Bastion Public IP
 output "bastion_public_ip" {
   value       = google_compute_instance.bastion.network_interface[0].access_config[0].nat_ip
   description = "Public IP of the Bastion Host"
 }
 
+### Firewall: Inbound
 resource "google_compute_firewall" "allow_bastion_to_private" {
   name    = "allow-bastion-to-private"
   network = google_compute_network.main.id

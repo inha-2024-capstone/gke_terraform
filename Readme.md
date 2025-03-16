@@ -1,6 +1,9 @@
-## GKE 사용 방법 
-### 아래의 API 활성화  
-* Cloud SQL Admin API     
+## GKE 사용 방법     
+### 소스코드 설명     
+* [Google Cloud Platform을 통해 k8s, Mysql, Reids, Kafka를 Terraform으로 배포하기](https://velog.io/@rlwjddl234/Google-Cloud-Platform%EC%9D%84-%ED%86%B5%ED%95%B4-k8s-Mysql-Reids-Kafka%EB%A5%BC-Terraform%EC%9C%BC%EB%A1%9C-%EB%B0%B0%ED%8F%AC%ED%95%98%EA%B8%B0)     
+
+### 아래의 API 활성화    
+* Cloud SQL Admin API        
 * Service Networking API        
 * Cloud Resource Manager API       
 * Compute Engine API       
@@ -11,10 +14,16 @@
 * IAM 및 관리자 접속  
 * 서비스 계정에 소유자 또는 roles/iam.serviceAccountUser 및 roles/compute.networkViewer 추가        
 * 이후 key를 발급받고 해당 json 파일의 path를 GOOGLE_APPLICATION_CREDENTIALS 의 환경변수로 설정        
+  
+### main.tf 작성  
+* 해당 파일에 프로젝트 id와 같은 변수 입력         
 
-### main.tf 작성
-* 해당 파일에 프로젝트 id와 같은 변수 입력       
-
+### 실행 방법     
+* main.tf 파일의 변수를 채운다.     
+* terraform init     
+* terraform plan      
+* terraform apply      
+ 
 ### 중요한 점
 * GKE는 하나의 서브네트워크에서 동작한다. 다른 서브네트워크를 지정하지 말고 사용할 여러 개의 가용영역을 지정해주면 된다.       
 * AWS 처럼 라우팅 테이블을 작성하지 않아도 된다.         

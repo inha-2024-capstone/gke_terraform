@@ -1,3 +1,4 @@
+### Kubernetes Cluster
 resource "google_container_cluster" "primary" {
   name                     = var.cluster-name # 클러스터 이름
   location                 = var.region #Region 설정
@@ -8,18 +9,20 @@ resource "google_container_cluster" "primary" {
   remove_default_node_pool = true
 
   initial_node_count = 1
-  
+  # To prevent re-construction
   lifecycle {
     ignore_changes = [
       initial_node_count
     ]
   }
-  
+  # Network SetUp
+  # VPC
   network                  = google_compute_network.main.self_link
+  # Private subnetwork
   subnetwork               = google_compute_subnetwork.private_subnet_a.name
   networking_mode          = "VPC_NATIVE"
 
-    
+  # Addons
   addons_config {
     http_load_balancing {
       disabled = false
